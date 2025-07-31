@@ -1,76 +1,105 @@
+# 📌 Nome do workflow
 name: Deploy to GitHub Pages
 
+# ⏰ Gatilhos para execução do workflow
 on:
+  # Executa quando houver push na branch main
   push:
     branches: [ "main" ]
+  # Permite execução manual na interface do GitHub
   workflow_dispatch:
+  # Agenda execução diária às 8h (horário de Fortaleza/UTC-3)
   schedule:
-    - cron: '0 11 * * *'  # 8AM Fortaleza time (UTC-3)
+    - cron: '0 11 * * *'
 
+# 🔐 Permissões necessárias
 permissions:
-  contents: write
-  pages: write
-  id-token: write
+  contents: write  # Permite escrever no repositório
+  pages: write     # Permite publicar no GitHub Pages
+  id-token: write  # Permite autenticação OIDC
 
+# 🏗️ Configuração do ambiente de publicação
+# OBRIGATÓRIO para o GitHub Pages (correção do erro)
+env:
+  name: github-pages  # Nome do ambiente de deploy
+
+# 💼 Jobs (tarefas) do workflow
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    # 🌍 Configuração do ambiente de execução
+    runs-on: ubuntu-latest  # Usa a última versão do Ubuntu
     
+    # 📌 Define o ambiente de deploy (CORREÇÃO PRINCIPAL)
+    environment:
+      name: github-pages  # Nome do ambiente
+      url: ${{ steps.deployment.outputs.page_url }}  # URL que será gerada
+    
+    # 🚀 Passos de execução
     steps:
+      # 1️⃣ Passo: Baixar o código do repositório
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # Baixa todo o histórico do git
 
+      # 2️⃣ Passo: Configurar Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
-          # Removed cache as we don't have requirements.txt
-          check-latest: true  # Ensures latest patch version
+          python-version: '3.10'  # Versão do Python
+          check-latest: true     # Usa a última versão patch disponível
 
+      # 3️⃣ Passo: Instalar dependências Python
       - name: Install Python dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install requests beautifulsoup4
-          # Create minimal requirements.txt for future caching
+          python -m pip install --upgrade pip  # Atualiza o pip
+          pip install requests beautifulsoup4  # Instala bibliotecas necessárias
+          # Cria requirements.txt mínimo para cache futuro
           echo "requests==2.31.0" > requirements.txt
           echo "beautifulsoup4==4.12.2" >> requirements.txt
 
+      # 4️⃣ Passo: Executar script de download de arquivos
       - name: Run downloads_files.py
         run: |
-          python downloads_files.py
-          cat downloaded_files.txt
+          python downloads_files.py  # Executa o script Python
+          cat downloaded_files.txt  # Exibe o conteúdo do arquivo gerado
 
+      # 5️⃣ Passo: Configurar Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: '20'  # Versão do Node.js
+          cache: 'npm'        # Habilita cache do npm
 
+      # 6️⃣ Passo: Gerar metadados com JavaScript
       - name: Generate metadata
         run: |
-          node generate_metadata.js
-          cat files_metadata.json
+          node generate_metadata.js  # Executa o script Node
+          cat files_metadata.json    # Exibe o conteúdo do arquivo gerado
 
+      # 7️⃣ Passo: Instalar dependências do Playwright (se necessário)
       - name: Install Playwright dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgbm-dev
+          sudo apt-get install -y libgbm-dev  # Dependência gráfica
 
+      # 8️⃣ Passo: Configurar GitHub Pages
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
+      # 9️⃣ Passo: Enviar artefato para deploy
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: .  # Envia todo o diretório atual
+          # Exclui arquivos desnecessários para o deploy
           exclude-assets: |
             generate_metadata.js
             downloads_files.py
             requirements.txt
             .github/workflows/*
 
+      # 🔟 Passo: Fazer o deploy no GitHub Pages
       - name: Deploy to GitHub Pages
-        id: deployment
+        id: deployment  # ID para referência posterior
         uses: actions/deploy-pages@v4
