@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="system">
+<head>
+  <!-- Metadados básicos otimizados -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Repositório de downloads de arquivos mantido por Josiel Jefferson">
+  <meta name="keywords" content="downloads, arquivos, repositório, Josiel Jefferson">
+  <meta name="author" content="Josiel Jefferson">
+  
+  <!-- Metadados Open Graph melhorados -->
+  <meta property="og:title" content="Repositório de Downloads">
+  <meta property="og:description" content="Acesse diversos arquivos para download">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://seusite.com">
+  <meta property="og:image" content="https://seusite.com/imagem-compartilhamento.jpg">
+  
+  <!-- Configuração de tema otimizada -->
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
+  
+  <title>Repositório de Downloads</title>
+  
+  <!-- Pré-carregamento otimizado -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://github.com" crossorigin>
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+  
+  <!-- Carregamento de fontes com fallback robusto -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
+  
+  <!-- CSS crítico otimizado -->
+  <style>
+    /* Variáveis CSS modernizadas com fallbacks */
+    :root {
+      color-scheme: light dark;
+      --primary-color: #2563eb;
+      --primary-hover: #1d4ed8;
+      --secondary-color: #2980b9;
+      --text-color: #1e293b;
+      --text-color-dark: #f1f5f9;
+      --bg-color: #ffffff;
+      --bg-color-dark: #0f172a;
+      --border-color: #e2e8f0;
+      --border-color-dark: #334155;
+      --card-bg: #f8fafc;
+      --card-bg-dark: #1e293b;
+      --error-color: #e74c3c;
+      --success-color: #2ecc71;
+      --transition: 0.2s ease;
+    }
+    
+    [data-theme="dark"] {
+      --primary-color: #3b82f6;
+      --primary-hover: #60a5fa;
+      --secondary-color: #4a9ff5;
+      --text-color: var(--text-color-dark);
+      --bg-color: var(--bg-color-dark);
+      --border-color: var(--border-color-dark);
+      --card-bg: var(--card-bg-dark);
+    }
+    
+    /* Reset moderno com melhor acessibilidade */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    /* Base estilizada para melhor legibilidade */
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, 
+                   Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background-color: var(--bg-color);
+      transition: background-color var(--transition), color var(--transition);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+    }
+    
+    /* Melhorias no cabeçalho */
+    header, footer {
+      padding: clamp(1rem, 2vw, 1.5rem);
+      text-align: center;
+    }
+    
+    header {
+      border-bottom: 1px solid var(--border-color);
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    h1 {
+      color: var(--primary-color);
+      margin-bottom: 10px;
+      font-size: clamp(1.5rem, 3vw, 1.8rem);
+    }
+    
+    h2 {
+      color: var(--secondary-color);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.3rem;
+    }
+    
+    /* Layout responsivo básico para containers */
+    .container {
+      width: min(100% - 2rem, 1200px);
+      margin-inline: auto;
+    }
+    
+    main {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+      flex: 1;
+    }
+    
+    section {
+      background-color: var(--card-bg);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--border-color);
+    }
+    
+    .files-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    
+    .file-card {
+      padding: 15px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      transition: transform var(--transition), box-shadow var(--transition), 
+                 border-color var(--transition), background-color var(--transition);
+      background-color: var(--bg-color);
+    }
+    
+    .file-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .file-card h3 {
+      margin-bottom: 10px;
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.1rem;
+    }
+    
+    .file-card p {
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      color: color-mix(in srgb, var(--text-color) 85%, transparent);
+    }
+    
+    .file-card a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 15px;
+      background-color: var(--primary-color);
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background-color var(--transition);
+      font-size: 0.9rem;
+    }
+    
+    .file-card a:hover {
+      background-color: var(--primary-hover);
+    }
+    
+    .loading-card {
+      text-align: center;
+      padding: 30px;
+      grid-column: 1 / -1;
+    }
+    
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      margin: 0 auto 15px;
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      border-top-color: var(--primary-color);
+      animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .error-message {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 20px;
+      color: var(--error-color);
+      background-color: color-mix(in srgb, var(--error-color) 10%, transparent);
+      border-radius: 8px;
+      border: 1px solid color-mix(in srgb, var(--error-color) 30%, transparent);
+    }
+    
+    .success-message {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 20px;
+      color: var(--success-color);
+      background-color: color-mix(in srgb, var(--success-color) 10%, transparent);
+      border-radius: 8px;
+      border: 1px solid color-mix(in srgb, var(--success-color) 30%, transparent);
+    }
+    
+    #metadata-info {
+      margin-top: 15px;
+      padding: 15px;
+      background-color: color-mix(in srgb, var(--primary-color) 5%, transparent);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      border: 1px solid var(--border-color);
+    }
+    
+    #metadata-info p {
+      margin-bottom: 5px;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding: 20px;
+      font-size: 0.9rem;
+      color: color-mix(in srgb, var(--text-color) 60%, transparent);
+      border-top: 1px solid var(--border-color);
+    }
+    
+    footer a {
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    
+    footer a:hover {
+      color: var(--primary-hover);
+      text-decoration: underline;
+    }
+    
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 15px 0;
+      flex-wrap: wrap;
+    }
+    
+    .social-link {
+      color: var(--text-color);
+      transition: color var(--transition), transform var(--transition);
+      font-size: 1.2rem;
+    }
+    
+    .social-link:hover {
+      color: var(--primary-color);
+      transform: translateY(-2px);
+    }
+    
+    /* Controles de tema e ordenação */
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
+      justify-content: center;
+    }
+    
+    .control-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .control-group label {
+      font-size: 0.9rem;
+    }
+    
+    .control-group select, .control-group input {
+      padding: 6px 10px;
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    
+    /* Barra de pesquisa */
+    .search-container {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto 20px;
+      position: relative;
+    }
+    
+    #search {
+      width: 100%;
+      padding: 10px 15px 10px 40px;
+      border-radius: 25px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-size: 0.95rem;
+      transition: box-shadow var(--transition), border-color var(--transition);
+    }
+    
+    #search:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-color) 20%, transparent);
+    }
+    
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: color-mix(in srgb, var(--text-color) 60%, transparent);
+    }
+    
+    /* Paginação */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+    
+    .pagination button {
+      padding: 8px 12px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color var(--transition), color var(--transition);
+    }
+    
+    .pagination button:hover:not(:disabled) {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+    
+    .pagination button.active {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+    
+    .pagination button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .pagination-info {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: color-mix(in srgb, var(--text-color) 70%, transparent);
+    }
+    
+    /* Filtro de tipo */
+    .type-filter {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .type-filter button {
+      padding: 6px 12px;
+      border-radius: 15px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      cursor: pointer;
+      transition: all var(--transition);
+      font-size: 0.85rem;
+    }
+    
+    .type-filter button:hover, .type-filter button.active {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+    
+    @media (max-width: 768px) {
+      .files-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .controls {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .type-filter {
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Cabeçalho semântico melhorado -->
+  <header role="banner">
+    <div class="container">
+      <h1><i class="fas fa-download"></i> Repositório de Downloads</h1>
+      <p>Atualizado automaticamente - Última atualização: <span id="last-update"></span></p>
+      <div id="metadata-info"></div>
+      
+      <!-- Barra de pesquisa -->
+      <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" id="search" placeholder="Pesquisar arquivos..." aria-label="Pesquisar arquivos">
+      </div>
+      
+      <!-- Filtro por tipo -->
+      <div class="type-filter">
+        <button data-type="all" class="active">Todos</button>
+        <button data-type="m3u">Playlists M3U</button>
+        <button data-type="xml.gz">Guias EPG</button>
+        <button data-type="pdf">PDF</button>
+        <button data-type="doc">Word</button>
+        <button data-type="xls">Excel</button>
+        <button data-type="ppt">PowerPoint</button>
+        <button data-type="jpg,png,gif,svg">Imagem</button>
+        <button data-type="mp3,wav,aac">Áudio</button>
+        <button data-type="zip,rar,7z">Arquivo Compactado</button>
+        <button data-type="other">Outros</button>
+      </div>
+      
+      <!-- Controles de interface melhorados -->
+      <div class="controls">
+        <div class="control-group">
+          <label for="sort">Ordenar por:</label>
+          <select id="sort" aria-label="Ordenar arquivos">
+            <option value="name">Nome (A-Z)</option>
+            <option value="nameDesc">Nome (Z-A)</option>
+            <option value="date">Data (Mais recentes)</option>
+            <option value="dateOldest">Data (Mais antigo)</option>
+            <option value="size">Tamanho (Maior)</option>
+            <option value="sizeSmallest">Tamanho (Menor)</option>
+            <option value="type">Tipo (A-Z)</option>
+            <option value="typeDesc">Tipo (Z-A)</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="per-page">Itens por página:</label>
+          <select id="per-page" aria-label="Itens por página">
+            <option value="10">10</option>
+            <option value="20" selected>20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="theme">Tema:</label>
+          <select id="theme" aria-label="Escolher tema">
+            <option value="light">Claro</option>
+            <option value="dark">Escuro</option>
+            <option value="system" selected>Sistema</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Conteúdo principal semântico -->
+  <main id="main-content" role="main" class="container">
+    <section id="files-section" aria-labelledby="files-heading">
+      <h2 id="files-heading"><i class="fas fa-file-alt"></i> Arquivos Disponíveis</h2>
+      <div class="files-container" id="files-container" aria-live="polite">
+        <div class="loading-card">
+          <div class="loading-spinner" aria-hidden="true"></div>
+          <p>Carregando arquivos...</p>
+        </div>
+      </div>
+      
+      <!-- Paginação -->
+      <div class="pagination" id="pagination"></div>
+      <div class="pagination-info" id="pagination-info"></div>
+    </section>
+  </main>
+
+  <!-- Rodapé semântico melhorado -->
+  <footer role="contentinfo">
+    <div class="container">
+      <p>Projeto mantido por <a href="https://github.com/josieljluz" target="_blank" rel="noopener noreferrer">Josiel Jefferson</a></p>
+      
+      <!-- Links sociais acessíveis -->
+      <div class="social-links" aria-label="Redes sociais">
+        <a href="https://github.com/josieljluz" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub (abre em nova janela)">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="https://gitlab.com/josieljluz" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitLab (abre em nova janela)">
+          <i class="fab fa-gitlab" aria-hidden="true"></i>
+        </a>
+        <a href="https://wa.me/+5589981073340" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="WhatsApp (abre em nova janela)">
+          <i class="fab fa-whatsapp" aria-hidden="true"></i>
+        </a>
+        <a href="https://t.me/ElectronSpeedX" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Telegram (abre em nova janela)">
+          <i class="fab fa-telegram" aria-hidden="true"></i>
+        </a>
+        <a href="https://facebook.com/josieljeff" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook (abre em nova janela)">
+          <i class="fab fa-facebook-f" aria-hidden="true"></i>
+        </a>
+        <a href="https://instagram.com/josieljeff" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram (abre em nova janela)">
+          <i class="fab fa-instagram" aria-hidden="true"></i>
+        </a>
+        <a href="https://twitter.com/josieljeff" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Twitter (abre em nova janela)">
+          <i class="fab fa-twitter" aria-hidden="true"></i>
+        </a>
+        <a href="https://www.threads.net/@josieljeff" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Threads (abre em nova janela)">
+          <i class="fab fa-threads" aria-hidden="true"></i>
+        </a>
+        <a href="https://tiktok.com/@josieljeff" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="TikTok (abre em nova janela)">
+          <i class="fab fa-tiktok" aria-hidden="true"></i>
+        </a>
+        <a href="https://linkedin.com/in/josieljeff" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn (abre em nova janela)">
+          <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+        </a>
+        <a href="mailto:josiel@example.com" class="social-link" aria-label="Enviar e-mail">
+          <i class="fas fa-envelope" aria-hidden="true"></i>
+        </a>
+        <a href="https://x.com/josieljeff" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="X (Twitter) (abre em nova janela)">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
+        <a href="https://bitbucket.org/josieljluz" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Bitbucket (abre em nova janela)">
+          <i class="fab fa-bitbucket" aria-hidden="true"></i>
+        </a>
+      </div>
+      
+      <!-- Informação de build com data dinâmica -->
+      <p>© <span id="current-year"></span> Repositório de Downloads - Todos os direitos reservados</p>
+      <p class="build-info">Última atualização: <time id="build-date" datetime=""></time></p>
+    </div>
+  </footer>
+  
+  <script>
+    /**
+     * Função principal para inicialização otimizada
+     */
+    document.addEventListener('DOMContentLoaded', () => {
+      // Configuração do tema aprimorada
+      const setupTheme = () => {
+        const getSystemTheme = () => 
+          window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        
+        const applyTheme = (theme) => {
+          document.documentElement.setAttribute('data-theme', 
+            theme === 'system' ? getSystemTheme() : theme);
+        };
+        
+        const savedTheme = localStorage.getItem('theme') || 'system';
+        applyTheme(savedTheme);
+        
+        // Atualiza o select
+        const themeSelect = document.getElementById('theme');
+        if (themeSelect) {
+          themeSelect.value = savedTheme;
+          themeSelect.addEventListener('change', (e) => {
+            localStorage.setItem('theme', e.target.value);
+            applyTheme(e.target.value);
+          });
+        }
+        
+        // Observa mudanças no tema do sistema
+        window.matchMedia('(prefers-color-scheme: dark)')
+          .addEventListener('change', () => {
+            if (localStorage.getItem('theme') === 'system') {
+              applyTheme('system');
+            }
+          });
+      };
+      
+      // Atualização de datas otimizada
+      const updateDates = () => {
+        const formatDate = (date) => 
+          new Intl.DateTimeFormat('pt-BR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+          }).format(date).replace(',', ' -');
+        
+        const updateLastUpdateTime = () => {
+          const now = new Date();
+          const options = { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          };
+          document.getElementById('last-update').textContent = now.toLocaleDateString('pt-BR', options);
+          document.getElementById('build-date').textContent = formatDate(now);
+          document.getElementById('build-date').setAttribute('datetime', now.toISOString());
+        };
+        
+        updateLastUpdateTime();
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+      };
+      
+      // Função para formatar tamanho de arquivo
+      const formatFileSize = (bytes) => {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+      };
+      
+      // Função para exibir metadados
+      const displayMetadata = (metadata) => {
+        const infoContainer = document.getElementById('metadata-info');
+        const nextUpdate = new Date(metadata.next_update);
+        
+        infoContainer.innerHTML = `
+          <p><strong>Total de arquivos:</strong> ${metadata.total_files}</p>
+          <p><strong>Próxima atualização:</strong> ${nextUpdate.toLocaleString('pt-BR')}</p>
+        `;
+      };
+      
+      // Função para filtrar arquivos
+      const filterFiles = (files, searchTerm = '', typeFilter = 'all') => {
+        return files.filter(file => {
+          const matchesSearch = file.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                              (file.description && file.description.toLowerCase().includes(searchTerm.toLowerCase()));
+          
+          // Extrai a extensão do arquivo
+          const fileExt = file.name.split('.').pop().toLowerCase();
+          
+          const matchesType = typeFilter === 'all' || 
+                            (typeFilter === 'm3u' && (fileExt === 'm3u' || file.type === 'm3u')) ||
+                            (typeFilter === 'xml.gz' && (fileExt === 'gz' || file.type === 'epg')) ||
+                            (typeFilter === 'pdf' && (fileExt === 'pdf' || file.type === 'pdf')) ||
+                            (typeFilter === 'doc' && (['doc', 'docx'].includes(fileExt) || file.type === 'word')) ||
+                            (typeFilter === 'xls' && (['xls', 'xlsx'].includes(fileExt) || file.type === 'excel')) ||
+                            (typeFilter === 'ppt' && (['ppt', 'pptx'].includes(fileExt) || file.type === 'powerpoint')) ||
+                            (typeFilter === 'jpg,png,gif,svg' && ['jpg', 'jpeg', 'png', 'gif', 'svg'].includes(fileExt)) ||
+                            (typeFilter === 'mp3,wav,aac' && ['mp3', 'wav', 'aac'].includes(fileExt)) ||
+                            (typeFilter === 'zip,rar,7z' && ['zip', 'rar', '7z'].includes(fileExt)) ||
+                            (typeFilter === 'other' && 
+                             !['m3u', 'gz', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 
+                               'jpg', 'jpeg', 'png', 'gif', 'svg', 'mp3', 'wav', 'aac', 'zip', 'rar', '7z'].includes(fileExt));
+          
+          return matchesSearch && matchesType;
+        });
+      };
+      
+      // Função para criar paginação
+      const setupPagination = (filteredFiles, currentPage, itemsPerPage) => {
+        const totalPages = Math.ceil(filteredFiles.length / itemsPerPage);
+        const paginationContainer = document.getElementById('pagination');
+        const paginationInfo = document.getElementById('pagination-info');
+        
+        if (filteredFiles.length <= itemsPerPage) {
+          paginationContainer.innerHTML = '';
+          paginationInfo.textContent = `Mostrando todos os ${filteredFiles.length} arquivos`;
+          return filteredFiles;
+        }
+        
+        // Atualiza informações da paginação
+        const startItem = (currentPage - 1) * itemsPerPage + 1;
+        const endItem = Math.min(currentPage * itemsPerPage, filteredFiles.length);
+        paginationInfo.textContent = `Mostrando ${startItem}-${endItem} de ${filteredFiles.length} arquivos`;
+        
+        // Cria botões de paginação
+        let paginationHTML = '';
+        
+        // Botão Anterior
+        paginationHTML += `
+          <button id="prev-page" ${currentPage === 1 ? 'disabled' : ''}>
+            <i class="fas fa-chevron-left"></i>
+          </button>
+        `;
+        
+        // Botões de página
+        const maxVisiblePages = 5;
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+        
+        if (endPage - startPage + 1 < maxVisiblePages) {
+          startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+        
+        if (startPage > 1) {
+          paginationHTML += `<button data-page="1">1</button>`;
+          if (startPage > 2) {
+            paginationHTML += `<button disabled>...</button>`;
+          }
+        }
+        
+        for (let i = startPage; i <= endPage; i++) {
+          paginationHTML += `
+            <button data-page="${i}" ${i === currentPage ? 'class="active"' : ''}>${i}</button>
+          `;
+        }
+        
+        if (endPage < totalPages) {
+          if (endPage < totalPages - 1) {
+            paginationHTML += `<button disabled>...</button>`;
+          }
+          paginationHTML += `<button data-page="${totalPages}">${totalPages}</button>`;
+        }
+        
+        // Botão Próximo
+        paginationHTML += `
+          <button id="next-page" ${currentPage === totalPages ? 'disabled' : ''}>
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        `;
+        
+        paginationContainer.innerHTML = paginationHTML;
+        
+        // Adiciona event listeners
+        document.querySelectorAll('#pagination button[data-page]').forEach(button => {
+          button.addEventListener('click', () => {
+            displayFiles(filteredFiles, document.getElementById('sort').value, parseInt(button.dataset.page));
+          });
+        });
+        
+        document.getElementById('prev-page').addEventListener('click', () => {
+          if (currentPage > 1) {
+            displayFiles(filteredFiles, document.getElementById('sort').value, currentPage - 1);
+          }
+        });
+        
+        document.getElementById('next-page').addEventListener('click', () => {
+          if (currentPage < totalPages) {
+            displayFiles(filteredFiles, document.getElementById('sort').value, currentPage + 1);
+          }
+        });
+        
+        // Retorna os itens da página atual
+        return filteredFiles.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+      };
+      
+      // Função para exibir arquivos com ordenação, paginação e filtros
+      const displayFiles = (allFiles, sortMethod = 'name', page = 1) => {
+        const container = document.getElementById('files-container');
+        const itemsPerPage = parseInt(document.getElementById('per-page').value) || 20;
+        const searchTerm = document.getElementById('search').value.trim();
+        const activeTypeFilter = document.querySelector('.type-filter button.active')?.dataset.type || 'all';
+        
+        // Filtra os arquivos
+        let filteredFiles = filterFiles(allFiles, searchTerm, activeTypeFilter);
+        
+        // Ordena os arquivos conforme o método selecionado
+        const sortedFiles = [...filteredFiles].sort((a, b) => {
+          switch(sortMethod) {
+            case 'name':
+              return a.name.localeCompare(b.name);
+            case 'nameDesc':
+              return b.name.localeCompare(a.name);
+            case 'date':
+              return new Date(b.updated) - new Date(a.updated);
+            case 'dateOldest':
+              return new Date(a.updated) - new Date(b.updated);
+            case 'size':
+              return b.size - a.size;
+            case 'sizeSmallest':
+              return a.size - b.size;
+            case 'type':
+              return a.type.localeCompare(b.type) || a.name.localeCompare(b.name);
+            case 'typeDesc':
+              return b.type.localeCompare(a.type) || a.name.localeCompare(b.name);
+            default:
+              return a.name.localeCompare(b.name);
+          }
+        });
+        
+        // Configura paginação
+        const paginatedFiles = setupPagination(sortedFiles, page, itemsPerPage);
+        
+        // Exibe os arquivos
+        container.innerHTML = '';
+        
+        if (paginatedFiles.length === 0) {
+          container.innerHTML = `
+            <div class="error-message">
+              Nenhum arquivo encontrado com os critérios atuais.
+              ${searchTerm ? `Termo de pesquisa: "${searchTerm}"` : ''}
+            </div>
+          `;
+          return;
+        }
+        
+        paginatedFiles.forEach(file => {
+          const card = document.createElement('div');
+          card.className = 'file-card';
+          
+          // Extrai a extensão do arquivo
+          const fileExt = file.name.split('.').pop().toLowerCase();
+          
+          // Define o ícone com base no tipo de arquivo
+          let icon, fileType;
+          
+          if (fileExt === 'm3u' || file.type === 'm3u') {
+            icon = '<i class="fas fa-list" aria-hidden="true"></i>';
+            fileType = 'Playlist M3U';
+          } else if (fileExt === 'gz' || file.type === 'epg') {
+            icon = '<i class="fas fa-calendar-alt" aria-hidden="true"></i>';
+            fileType = 'Guia EPG';
+          } else if (fileExt === 'pdf' || file.type === 'pdf') {
+            icon = '<i class="fas fa-file-pdf" aria-hidden="true"></i>';
+            fileType = 'Documento PDF';
+          } else if (['doc', 'docx'].includes(fileExt) || file.type === 'word') {
+            icon = '<i class="fas fa-file-word" aria-hidden="true"></i>';
+            fileType = 'Documento Word';
+          } else if (['xls', 'xlsx'].includes(fileExt) || file.type === 'excel') {
+            icon = '<i class="fas fa-file-excel" aria-hidden="true"></i>';
+            fileType = 'Planilha Excel';
+          } else if (['ppt', 'pptx'].includes(fileExt) || file.type === 'powerpoint') {
+            icon = '<i class="fas fa-file-powerpoint" aria-hidden="true"></i>';
+            fileType = 'Apresentação PowerPoint';
+          } else if (['jpg', 'jpeg', 'png', 'gif', 'svg'].includes(fileExt)) {
+            icon = '<i class="fas fa-file-image" aria-hidden="true"></i>';
+            fileType = 'Imagem';
+          } else if (['mp3', 'wav', 'aac'].includes(fileExt)) {
+            icon = '<i class="fas fa-file-audio" aria-hidden="true"></i>';
+            fileType = 'Áudio';
+          } else if (['zip', 'rar', '7z'].includes(fileExt)) {
+            icon = '<i class="fas fa-file-archive" aria-hidden="true"></i>';
+            fileType = 'Arquivo Compactado';
+          } else {
+            icon = '<i class="fas fa-file" aria-hidden="true"></i>';
+            fileType = file.type ? file.type.toUpperCase() : 'Arquivo';
+          }
+          
+          card.innerHTML = `
+            <h3>${icon} ${file.name}</h3>
+            <p class="file-type">${fileType}</p>
+            <p class="file-size">Tamanho: ${formatFileSize(file.size)}</p>
+            <p class="file-updated">Atualizado: ${new Date(file.updated).toLocaleString('pt-BR')}</p>
+            ${file.description ? `<p class="file-description">${file.description}</p>` : ''}
+            <a href="${file.name}" download>Baixar</a>
+          `;
+          
+          container.appendChild(card);
+        });
+      };
+      
+      // Configura os listeners para controles
+      const setupControls = () => {
+        // Ordenação
+        const sortSelect = document.getElementById('sort');
+        if (sortSelect) {
+          sortSelect.addEventListener('change', (e) => {
+            if (window.currentFiles) {
+              displayFiles(window.currentFiles, e.target.value);
+            }
+          });
+        }
+        
+        // Itens por página
+        const perPageSelect = document.getElementById('per-page');
+        if (perPageSelect) {
+          perPageSelect.addEventListener('change', () => {
+            if (window.currentFiles) {
+              displayFiles(window.currentFiles, sortSelect.value);
+            }
+          });
+        }
+        
+        // Barra de pesquisa
+        const searchInput = document.getElementById('search');
+        if (searchInput) {
+          // Debounce para evitar muitas chamadas durante a digitação
+          let searchTimeout;
+          searchInput.addEventListener('input', () => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+              if (window.currentFiles) {
+                displayFiles(window.currentFiles, sortSelect.value);
+              }
+            }, 300);
+          });
+          
+          // Também pesquisa ao pressionar Enter
+          searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && window.currentFiles) {
+              displayFiles(window.currentFiles, sortSelect.value);
+            }
+          });
+        }
+        
+        // Filtros por tipo
+        const typeFilters = document.querySelectorAll('.type-filter button');
+        typeFilters.forEach(button => {
+          button.addEventListener('click', () => {
+            typeFilters.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            if (window.currentFiles) {
+              displayFiles(window.currentFiles, sortSelect.value);
+            }
+          });
+        });
+      };
+      
+      // Carrega os dados dos arquivos
+      const loadFiles = () => {
+        fetch('files_metadata.json')
+          .then(response => response.json())
+          .then(data => {
+            window.currentFiles = data.files;
+            displayFiles(data.files);
+            displayMetadata(data.metadata);
+          })
+          .catch(error => {
+            console.error('Erro ao carregar metadados:', error);
+            document.getElementById('files-container').innerHTML = 
+              '<div class="error-message">Erro ao carregar arquivos. Tente atualizar a página.</div>';
+          });
+      };
+      
+      // Inicialização dos módulos
+      setupTheme();
+      updateDates();
+      setupControls();
+      loadFiles();
+    });
+  </script>
+</body>
+</html>
