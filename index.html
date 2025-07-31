@@ -828,7 +828,7 @@
           
           // Define o ícone com base no tipo de arquivo
           let icon, fileType;
-          
+          /*
           if (fileExt === 'm3u' || file.type === 'm3u') {
             icon = '<i class="fas fa-list" aria-hidden="true"></i>';
             fileType = 'Playlist M3U';
@@ -859,8 +859,79 @@
           } else {
             icon = '<i class="fas fa-file" aria-hidden="true"></i>';
             fileType = file.type ? file.type.toUpperCase() : 'Arquivo';
+          }*/
+
+          // Playlists M3U
+          if (fileExt === 'm3u' || file.type === 'm3u') {
+            icon = '<i class="fas fa-list" aria-hidden="true"></i>';
+            fileType = 'Playlist M3U';
+          } 
+          // Guias EPG (arquivos compactados XML)
+          else if (fileExt === 'gz' || file.type === 'epg') {
+            icon = '<i class="fas fa-calendar-alt" aria-hidden="true"></i>';
+            fileType = 'Guia EPG';
+          } 
+          // Documentos PDF
+          else if (fileExt === 'pdf' || file.type === 'pdf') {
+            icon = '<i class="fas fa-file-pdf" aria-hidden="true"></i>';
+            fileType = 'Documento PDF';
+          } 
+          // Documentos Word
+          else if (['doc', 'docx'].includes(fileExt) || file.type === 'word') {
+            icon = '<i class="fas fa-file-word" aria-hidden="true"></i>';
+            fileType = 'Documento Word';
+          } 
+          // Planilhas Excel
+          else if (['xls', 'xlsx'].includes(fileExt) || file.type === 'excel') {
+            icon = '<i class="fas fa-file-excel" aria-hidden="true"></i>';
+            fileType = 'Planilha Excel';
+          } 
+          // Apresentações PowerPoint
+          else if (['ppt', 'pptx'].includes(fileExt) || file.type === 'powerpoint') {
+            icon = '<i class="fas fa-file-powerpoint" aria-hidden="true"></i>';
+            fileType = 'Apresentação PowerPoint';
+          } 
+          // Imagens
+          else if (['jpg', 'jpeg', 'png', 'gif', 'svg'].includes(fileExt)) {
+            icon = '<i class="fas fa-file-image" aria-hidden="true"></i>';
+            fileType = 'Imagem';
+          } 
+          // Arquivos de áudio
+          else if (['mp3', 'wav', 'aac'].includes(fileExt)) {
+            icon = '<i class="fas fa-file-audio" aria-hidden="true"></i>';
+            fileType = 'Áudio';
+          } 
+          // Arquivos compactados
+          else if (['zip', 'rar', '7z'].includes(fileExt)) {
+            icon = '<i class="fas fa-file-archive" aria-hidden="true"></i>';
+            fileType = 'Arquivo Compactado';
+          } 
+          // Arquivos de texto simples
+          else if (fileExt === 'txt') {
+            icon = '<i class="fas fa-file-alt" aria-hidden="true"></i>';
+            fileType = 'Arquivo de Texto';
+          }
+          // Arquivos de programação (código-fonte)
+          else if ([
+            'js', 'jsx', 'ts', 'tsx',   // JavaScript/TypeScript
+            'py', 'java', 'cpp', 'c', 'cs', // Python, Java, C/C++, C#
+            'php', 'rb', 'go', 'swift', 'kt', 'rs', // PHP, Ruby, Go, Swift, Kotlin, Rust
+            'html', 'htm', 'css', 'scss', // Web
+            'json', 'xml', 'yml', 'yaml', // Configuração
+            'md', 'sh', 'bash', 'sql'    // Markdown, Shell, SQL
+          ].includes(fileExt)) {
+            icon = '<i class="fas fa-file-code" aria-hidden="true"></i>';
+            fileType = 'Arquivo de Programação';
+          }
+          // Tipo genérico para extensões não reconhecidas
+          else {
+            icon = '<i class="fas fa-file" aria-hidden="true"></i>';
+            fileType = file.type ? file.type.toUpperCase() : 'Arquivo';
           }
           
+          
+          
+          // Cria o HTML do card do arquivo
           card.innerHTML = `
             <h3>${icon} ${file.name}</h3>
             <p class="file-type">${fileType}</p>
@@ -870,6 +941,7 @@
             <a href="${file.name}" download>Baixar</a>
           `;
           
+          // Adiciona o card ao container
           container.appendChild(card);
         });
       };
