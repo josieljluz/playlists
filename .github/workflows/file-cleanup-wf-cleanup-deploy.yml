@@ -49,6 +49,12 @@ jobs:
           # rm -f playlists.m3u
           # rm -f pornstars.m3u
           # rm -f proton.m3u
+          rm -f coroa_vidaloka-20250609-0001.mp4
+          rm -f majormarra-20250624-0003.mp4
+          rm -f mentalidade_autoritaria-20250618-0001.jpg
+          rm -f marinahelenabr-20250712-0001.jpg
+          
+          
 
       - name: ✅ Commit e Push
         env:
