@@ -19,7 +19,7 @@ const config = {
   ],
   includedExtensions: ['.m3u', '.xml', '.xml.gz', '.txt'],
   githubUser: 'josieljluz',
-  githubRepo: 'josieljluz.github.io',
+  githubRepo: 'playlists',
   branch: process.env.CI_COMMIT_REF_NAME || 'main'
 };
 
