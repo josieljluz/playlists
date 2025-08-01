@@ -633,7 +633,7 @@
         updateLastUpdateTime();
         document.getElementById('current-year').textContent = new Date().getFullYear();
       };
-      
+      /*
       // Função para formatar tamanho de arquivo
       const formatFileSize = (bytes) => {
         if (bytes === 0) return '0 Bytes';
@@ -650,6 +650,28 @@
         
         infoContainer.innerHTML = `
           <p><strong>Total de arquivos:</strong> ${metadata.total_files}</p>
+          <p><strong>Próxima atualização:</strong> ${nextUpdate.toLocaleString('pt-BR')}</p>
+        `;
+      };
+      */
+      
+      // Função para formatar tamanho de arquivo
+      const formatFileSize = (bytes) => {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+      };
+
+      // Função para exibir metadados
+      const displayMetadata = (metadata) => {
+        const infoContainer = document.getElementById('metadata-info');
+        const nextUpdate = new Date(metadata.next_update);
+
+        infoContainer.innerHTML = `
+          <p><strong>Total de arquivos:</strong> ${metadata.total_files}</p>
+          <p><strong>Tamanho total:</strong> ${formatFileSize(metadata.total_size)}</p>
           <p><strong>Próxima atualização:</strong> ${nextUpdate.toLocaleString('pt-BR')}</p>
         `;
       };
