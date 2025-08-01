@@ -56,9 +56,9 @@ jobs:
           
           
           
-          rm -f x - index.htmll
-          rm -f xx - index.htmll
-          rm -f xxx - index.htmll
+          rm -f x-index.htmll
+          rm -f xx-index.htmll
+          rm -f xxx-index.htmll
           rm -f xxx-index.htmll
           
           rm -f downloads_files.py.py
