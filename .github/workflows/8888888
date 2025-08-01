@@ -1,0 +1,134 @@
+name: 🗑️ Excluir Arquivos + 🧹 Limpar Execuções + 🚀 Disparar Deploy
+
+on:
+  schedule:
+    - cron: '0 15 * * *'  # Executa às 12h BRT (15h UTC) - Exclusão de arquivos
+    - cron: '1 */12 * * *'  # Executa a cada 12 horas - Limpeza de execuções
+    - cron: '25 10 * * *'  # 10h UTC (7h BRT) - Disparar deploy
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+env:
+  TZ: America/Fortaleza
+
+jobs:
+  delete-files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⏰ Configurar fuso horário
+        run: |
+          sudo timedatectl set-timezone America/Fortaleza
+          date
+
+      - name: 🧾 Clonar repositório
+        uses: actions/checkout@v3
+
+      - name: 🗑️ Excluir arquivos da raiz
+        run: |
+          # rm -f 3wk1y24kx7uzdevxygz7
+          # rm -f 782dyqdrqkh1xegen4zp
+          # rm -f PiauiTV.m3u
+          # rm -f epgbrasil.m3u
+          # rm -f epgbrasil.xml
+          # rm -f epgbrasil.xml.gz
+          # rm -f epgbrasilportugal.m3u
+          # rm -f epgbrasilportugal.xml
+          # rm -f epgbrasilportugal.xml.gz
+          # rm -f epgportugal.m3u
+          # rm -f epgportugal.xml
+          # rm -f epgportugal.xml.gz
+          # rm -f jq2zy9epr3bwxmgwyxr5
+          # rm -f m3u4u_proton.me.m3u
+          # rm -f m3u@proton.me.m3u
+          # rm -f piauitv.m3u
+          # rm -f playlist.m3u
+          # rm -f playlists.log
+          # rm -f playlists.m3u
+          # rm -f pornstars.m3u
+          # rm -f proton.m3u
+
+      - name: ✅ Commit e Push
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add .
+          git commit -m "🗑️ Excluir arquivos via GitHub Actions (agendado)" || echo "Nada a commitar"
+          git push https://x-access-token:${TOKEN}@github.com/${{ github.repository }}.git HEAD:main
+
+  cleanup:
+    runs-on: ubuntu-latest
+    needs: delete-files
+    steps:
+      - name: 🗑️ Deletar execuções de workflow antigas
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "🔍 Iniciando verificação de execuções com mais de 1 horas..."
+          now=$(date -u +%s)
+          per_page=100
+          page=1
+          deleted=0
+
+          while true; do
+            echo "📄 Buscando página $page de execuções..."
+            runs=$(gh api \
+              -H "Accept: application/vnd.github.v3+json" \
+              "/repos/${{ github.repository }}/actions/runs?per_page=$per_page&page=$page" \
+              --jq '.workflow_runs[] | {id, created_at, status}')
+
+            if [ -z "$runs" ]; then
+              echo "✅ Nenhuma execução encontrada na página $page. Fim da paginação."
+              break
+            fi
+
+            echo "$runs" | jq -c 'select(.created_at != null)' | while read -r run; do
+              id=$(echo "$run" | jq -r '.id')
+              created_at=$(echo "$run" | jq -r '.created_at')
+
+              if date -u -d "$created_at" >/dev/null 2>&1; then
+                run_date=$(date -u -d "$created_at" +%s)
+              elif date -u -j -f "%Y-%m-%dT%H:%M:%SZ" "$created_at" >/dev/null 2>&1; then
+                run_date=$(date -u -j -f "%Y-%m-%dT%H:%M:%SZ" "$created_at" +%s)
+              else
+                echo "⚠️ Data inválida: $created_at"
+                continue
+              fi
+
+              diff_hours=$(( (now - run_date) / 3600 ))
+
+              if [ "$diff_hours" -ge 1 ]; then
+                echo "🗑️ Deletando execução ID: $id (Criada há $diff_hours horas)"
+                gh api \
+                  --method DELETE \
+                  -H "Accept: application/vnd.github.v3+json" \
+                  "/repos/${{ github.repository }}/actions/runs/$id" \
+                  >/dev/null 2>&1 && deleted=$((deleted + 1)) || echo "⚠️ Falha ao deletar execução ID: $id"
+              else
+                echo "✅ Execução ID: $id tem apenas $diff_hours horas — será mantida."
+              fi
+            done
+
+            page=$((page + 1))
+          done
+
+          echo "🏁 Processo concluído. Total de execuções deletadas: $deleted"
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: cleanup
+    environment: production
+    steps:
+      - name: Executar deploy do pages-build-deployment
+        run: |
+          curl -X POST \
+            -H "Authorization: token $TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/actions/workflows/pages-build-deployment.yml/dispatches \
+            -d '{"ref":"main"}'
+        env:
+          TOKEN: ${{ secrets.GH_DEPLOY_TOKEN }}
