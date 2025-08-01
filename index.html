@@ -691,7 +691,7 @@
           fileType = 'Playlist M3U';
         }
         // Guias EPG (arquivos compactados XML)
-        else if (['xml', 'xml.gz', 'xmltv', 'json', 'json.gz'].includes(fileExt) || file.type === 'epg') {
+        else if (['xml', 'xml.gz', 'gz', 'xmltv', 'json', 'json.gz'].includes(fileExt) || file.type === 'epg') {
           icon = '<i class="fas fa-calendar-alt" aria-hidden="true"></i>';
           fileType = 'Guia EPG';
         }
