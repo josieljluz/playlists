@@ -17,7 +17,7 @@ const config = {
     '.gitignore',
     'README.md'
   ],
-  includedExtensions: ['.m3u', '.xml', '.xml.gz', '.txt'],
+  includedExtensions: ['.m3u', '.xml', '.xml.gz', '.txt', '.mp4', '.jpg', '.xml.gz', '.txt'],
   githubUser: 'josieljluz',
   githubRepo: 'playlists',
   branch: process.env.CI_COMMIT_REF_NAME || 'main'
