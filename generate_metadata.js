@@ -24,10 +24,34 @@ const config = {
 };
 
 // Função para determinar o tipo do arquivo
-function getFileType(filename) {
+/*function getFileType(filename) {
   const ext = path.extname(filename).toLowerCase();
   if (ext === '.m3u') return 'm3u';
   if (ext === '.xml' || ext === '.xml.gz') return 'epg';
+  return 'file';
+}*/
+function getFileType(filename) {
+  const ext = path.extname(filename).toLowerCase();
+
+  if (ext === '.m3u') return 'm3u';
+  if (ext === '.xml' || ext === '.xml.gz') return 'epg';
+  if (ext === '.pdf') return 'pdf';
+  if (ext === '.doc' || ext === '.docx') return 'word';
+  if (ext === '.xls' || ext === '.xlsx') return 'excel';
+  if (ext === '.ppt' || ext === '.pptx') return 'powerpoint';
+  if (['.jpg', '.jpeg', '.png', '.gif', '.svg'].includes(ext)) return 'image';
+  if (['.mp3', '.wav', '.aac'].includes(ext)) return 'audio';
+  if (['.zip', '.rar', '.7z'].includes(ext)) return 'archive';
+  if (ext === '.txt') return 'text';
+  if ([
+    '.js', '.jsx', '.ts', '.tsx',       // JavaScript/TypeScript
+    '.py', '.java', '.cpp', '.c', '.cs', // Python, Java, C/C++, C#
+    '.php', '.rb', '.go', '.swift', '.kt', '.rs', // PHP, Ruby, Go, Swift, Kotlin, Rust
+    '.html', '.htm', '.css', '.scss',   // Web
+    '.json', '.yml', '.yaml', '.xml',   // Configuração
+    '.md', '.sh', '.bash', '.sql'       // Markdown, Shell, SQL
+  ].includes(ext)) return 'code';
+
   return 'file';
 }
 
@@ -89,3 +113,4 @@ function generateMetadata() {
 
 // Execução
 generateMetadata();
+
