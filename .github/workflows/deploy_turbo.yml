@@ -1,0 +1,157 @@
+# ===================================================================
+# 📌 WORKFLOW: deploy.yml (TURBO MODE - Otimizado para performance)
+# ===================================================================
+
+name: 🚀 Turbo Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 11 * * *'  # 8h BRT / 11h UTC
+
+# Configurações de ambiente otimizadas
+env:
+  NODE_ENV: production
+  DEPLOY_ENV: github-pages
+  NODE_VERSION: '20'
+  PYTHON_VERSION: '3.10'
+
+# Permissões granulares para melhor segurança
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+  actions: read  # Permite ler status de outras ações
+
+jobs:
+  turbo-deploy:
+    name: 🏗️ Build & Deploy (Turbo Mode)
+    runs-on: ubuntu-latest
+    environment: 
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    # Estratégia de matriz para paralelização
+    strategy:
+      matrix:
+        setup: ['python', 'node']
+      fail-fast: false
+    
+    steps:
+      # 1️⃣ Checkout ultra-rápido com sparse-checkout
+      - name: 🛒 Checkout repository (Turbo)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1  # Apenas o commit atual
+          sparse-checkout: |
+            /*
+            !.github/workflows/
+            !node_modules/
+            !.git/
+            
+      # 2️⃣ Cache de dependências para Python e Node
+      - name: 🗄️ Restore dependencies cache
+        uses: actions/cache@v3
+        id: cache
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.npm
+            node_modules
+          key: ${{ runner.os }}-${{ matrix.setup }}-${{ hashFiles('**/requirements.txt') }}-${{ hashFiles('**/package-lock.json') }}
+          
+      # 3️⃣ Configuração paralela de ambientes
+      - name: 🐍 Set up Python (if needed)
+        if: matrix.setup == 'python'
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'  # Habilita cache automático
+          
+      - name: 📦 Install Python dependencies
+        if: matrix.setup == 'python'
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          
+      - name: ⚙️ Run downloads_files.py
+        if: matrix.setup == 'python'
+        run: |
+          python downloads_files.py
+          cat downloaded_files.txt
+          
+      - name: ⎔ Set up Node.js (if needed)
+        if: matrix.setup == 'node'
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: 📊 Generate metadata (Turbo)
+        if: matrix.setup == 'node'
+        run: |
+          npm install # Se houver dependências
+          node --max-old-space-size=4096 generate_metadata.js
+          ls -lh files_metadata.json*
+          
+      # 4️⃣ Otimização de assets
+      - name: 🖼️ Optimize assets
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jpegoptim optipng pngquant gifsicle webp
+          
+          # Otimiza imagens (execução em paralelo)
+          find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | \
+            xargs -0 -P4 -I{} jpegoptim --strip-all --max=90 {}
+          find . -type f -iname "*.png" -print0 | \
+            xargs -0 -P4 -I{} optipng -o2 -strip all {}
+            
+      # 5️⃣ Configuração do GitHub Pages (otimizada)
+      - name: ⚙️ Setup GitHub Pages
+        uses: actions/configure-pages@v4
+        with:
+          static_site_generator: "custom"  # Modo customizado para melhor performance
+          
+      # 6️⃣ Upload otimizado com exclusão de arquivos desnecessários
+      - name: 📤 Upload artifact (Turbo)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: |
+            .
+            !.github/
+            !node_modules/
+            !*.log
+            !*.tmp
+            !generate_metadata.js
+            !downloads_files.py
+          compression-level: 9  # Máxima compressão
+          
+      # 7️⃣ Deploy com rollback automático em caso de falha
+      - name: 🚀 Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        timeout-minutes: 5  # Timeout reduzido para fail-fast
+        continue-on-error: false
+          
+      # 8️⃣ Notificação de status
+      - name: 📢 Notify deployment status
+        if: always()
+        run: |
+          if ${{ success() }}; then
+            echo "✅ Deploy realizado com sucesso!"
+            echo "🌐 URL: ${{ steps.deployment.outputs.page_url }}"
+          else
+            echo "❌ Falha no deploy!"
+            echo "🔍 Verifique os logs para detalhes"
+          fi
+          
+      # 9️⃣ Limpeza pós-deploy
+      - name: 🧹 Clean up workspace
+        if: always()
+        run: |
+          rm -rf node_modules
+          rm -rf __pycache__
+          rm -f *.tmp
+          echo "Workspace limpo!"
